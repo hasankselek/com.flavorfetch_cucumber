@@ -88,6 +88,35 @@
             <version>7.14.0</version>
             <scope>test</scope>
         </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/org.apache.maven/maven-plugin-api -->
+        <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-plugin-api</artifactId>
+            <version>3.6.3</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/junit/junit -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>4.4.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.masterthought</groupId>
+            <artifactId>cucumber-reporting</artifactId>
+            <version>5.6.1</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -95,7 +124,7 @@
             <plugin>
                 <groupId>net.masterthought</groupId>
                 <artifactId>maven-cucumber-reporting</artifactId>
-                <version>5.7.5</version>
+                <version>5.6.0</version>
                 <executions>
                     <execution>
                         <id>execution</id>
@@ -104,57 +133,20 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <projectName>cucumber-jvm-example</projectName>
+                            <projectName>cucumberReporting</projectName>
+                            <skip>false</skip>
                             <outputDirectory>${project.build.directory}</outputDirectory>
                             <inputDirectory>${project.build.directory}</inputDirectory>
                             <jsonFiles>
-                                <param>**/json-reports/*.json</param>
-                            </jsonFiles><classificationFiles>->
-                            <param>sample.properties</param>
-                            <param>other.properties</param>
-                        </classificationFiles>
+                                <param>**/*.json</param>
+                            </jsonFiles>
+                            <mergeFeaturesById>false</mergeFeaturesById>
+                            <mergeFeaturesWithRetest>false</mergeFeaturesWithRetest>
+                            <checkBuildResult>false</checkBuildResult>
                         </configuration>
                     </execution>
                 </executions>
-            </plugin> <!-- Raporlama yapiyor , json reports klasoru altindaki json dosyalarini rapor kontorl  -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <version>3.0.0-M1</version>
-                <configuration>
-                    <testFailureIgnore>true</testFailureIgnore>
-                    <skipTests>false</skipTests>
-                    <includes>
-                        <include>**/runners/*RunnerTopluCalistirmaJsonRaporlu*.java</include>
-                        <!-- runners package altinda
-                             calismasini istedigimiz Runner'larin
-                             isimlerindeki ortak bolumu yaziyoruz-->
-                    </includes>
-                </configuration>
-            </plugin>  <!-- bir method fail olsa bile geriye kalan method'larin calismaya devam etmesi icin -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M1</version>
-                <configuration>
-                    <parallel>classes</parallel>
-                    <forkMode>perthread</forkMode>
-                    <threadCount>2</threadCount> <!-- Ayni anda calisacak thread sayisi -->
-                    <reuseForks>false</reuseForks>
-                    <argLine>-Duser.language=en</argLine>
-                    <argLine>-Xmx1024m</argLine>
-                    <argLine>-XX:MaxPermSize=256m</argLine>
-                    <argLine>-Dfile.encoding=UTF-8</argLine>
-                    <useFile>false</useFile>
-                    <includes>
-                        <include>**/runners/*RunnerTopluCalistirmaJsonRaporlu*.java</include>
-                        <!-- runners package altinda
-                             calismasini istedigimiz Runner'larin
-                             isimlerindeki ortak bolumu yaziyoruz-->
-                    </includes>
-                    <testFailureIgnore>true</testFailureIgnore>
-                </configuration>
-            </plugin> <!-- Paralel calismayi organize ediyor -->
+            </plugin>
         </plugins>
     </build>
 

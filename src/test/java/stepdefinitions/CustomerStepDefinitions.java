@@ -7,6 +7,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
@@ -940,10 +941,112 @@ public class CustomerStepDefinitions {
         customerPage.passwordBox.sendKeys(ConfigReader.getProperty(hasanSifre));
         customerPage.loginSigninButton.click();
     }
+
     @Then("Anasayfada yerel mutfakları görüntüler")
     public void anasayfada_yerel_mutfakları_görüntüler() {
+
         assertTrue(customerPage.localCuisine.isDisplayed());
     }
+
+    @Then("Terms and Conditions yazisinin görüntülendigini dogrular")
+    public void terms_and_conditions_yazisinin_görüntülendigini_dogrular() {
+        assertTrue(customerPage.TermsAndConditionsText.isDisplayed());
+    }
+
+    @Given("Kullanıcı “İtalyan Banner”ına tıklar")
+    public void kullanıcı_italyan_banner_ına_tıklar() {
+        customerPage.italianRestaurants.click();
+    }
+    @Then("Sayfanın alt kısmına \\(footer’a) kadar kaydırır")
+    public void sayfanın_alt_kısmına_footer_a_kadar_kaydırır() {
+        JSUtilities.scrollToBottom(Driver.getDriver());
+        ReusableMethods.bekle(1);
+    }
+    @Then("Şartlar ve Koşullar bağlantısının görünürlüğünü doğrular")
+    public void şartlar_ve_koşullar_bağlantısının_görünürlüğünü_doğrular() {
+        assertTrue(customerPage.termsandconditionsLink.isDisplayed());
+        assertTrue(customerPage.termsandconditionsLink.isEnabled());
+    }
+
+    @Then("Şartlar ve Koşullar bağlantısına tıklar")
+    public void şartlar_ve_koşullar_bağlantısına_tıklar() {
+
+        customerPage.termsandconditionsLink.click();
+    }
+
+    @Then("Şartlar ve Koşullar sayfasına erişir")
+    public void şartlar_ve_koşullar_sayfasına_erişir() {
+        String actualUrl = Driver.getDriver().getCurrentUrl();
+        String expectedUrl = "https://qa.flavorfetch.com/terms-and-conditions";
+
+        assertEquals(actualUrl, expectedUrl);
+    }
+
+    @Then("Anasayfanın footer bölümünde gizlilik politikası navigasyonunu görür")
+    public void anasayfanın_footer_bölümünde_gizlilik_politikası_navigasyonunu_görür() {
+
+        assertTrue ( customerPage.privacypolicyLink.isDisplayed () );
+
+        assertTrue ( customerPage.privacypolicyLink.isEnabled () );
+
+        ReusableMethods.bekle ( 2 );
+    }
+
+    @Then("Gizlilik politikası sayfasının navigasyon linkine tıklar")
+    public void gizlilik_politikası_sayfasının_navigasyon_linkine_tıklar() {
+
+        customerPage.privacypolicyLink.click ();
+        ReusableMethods.bekle(1);
+    }
+
+    @Then("Gizlilik politikası sayfasının yüklendiğini görüntüler")
+    public void gizlilik_politikası_sayfasının_yüklendiğini_görüntüler() {
+
+        String expectedUrl = "https://qa.flavorfetch.com/privacy-policy";
+
+        String actualUrl = Driver.getDriver ().getCurrentUrl ();
+
+        assertEquals ( actualUrl, expectedUrl );
+
+        assertTrue ( customerPage.PrivacyPolicySayfabaslik.isDisplayed () );
+    }
+
+    @Then("Gizlilik politikası sayfasında “Gizlilik Politikası” başlığını görüntüler")
+    public void gizlilik_politikası_sayfasında_gizlilik_politikası_başlığını_görüntüler() {
+        String expectedUrl = "https://qa.flavorfetch.com/privacy-policy";
+
+        String actualUrl = Driver.getDriver ().getCurrentUrl ();
+
+        assertEquals ( actualUrl, expectedUrl );
+
+        assertTrue ( customerPage.PrivacyPolicySayfabaslik.isDisplayed () );
+
+        String expectedGizlilikMetinIcerik = "Privacy Policy,How We Use Your Information,Disclosure of Your Information,Security of Your Information";
+        WebElement privacyPolicyContent = customerPage.PrivacyPolicySayfametni; //
+        String actualGizlilikMetni = privacyPolicyContent.getText ();
+
+        for (String keyword : expectedGizlilikMetinIcerik.split ( "," )) {
+            assertTrue ( actualGizlilikMetni.contains ( keyword ) );
+
+        }
+    }
+
+    @Then("Gizlilik politikasi sayfasinda gizlilik politikasi ve bilgi guvenligi hakkinda iletisim adresi oldugunu goruntuler")
+    public void gizlilik_politikasi_sayfasinda_gizlilik_politikasi_ve_bilgi_guvenligi_hakkinda_iletisim_adresi_oldugunu_goruntuler() {
+
+
+        Actions actions = new Actions(Driver.getDriver());
+        actions.moveToElement(customerPage.appStoreLogo).perform();
+        assertTrue(customerPage.contactLink.isEnabled());
+
+    }
+    @Then("Iletisim adresine tiklanir bir e-posta istemcisini açar ve tıklanan e-posta adresini alıcı olarak otomatik olarak ekler.")
+    public void iletisim_adresine_tiklanir_bir_e_posta_istemcisini_açar_ve_tıklanan_e_posta_adresini_alıcı_olarak_otomatik_olarak_ekler() {
+
+        assertTrue (customerPage.contactLink.isDisplayed());
+
+    }
+
 
 
 

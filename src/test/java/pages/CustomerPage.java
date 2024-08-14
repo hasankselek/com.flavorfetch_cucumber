@@ -127,7 +127,7 @@ public class CustomerPage {
     @FindBy(xpath = "//*[text()='Flavor Fetch Corp.']")
     public WebElement flavorFetchCorpBasligi; // customer page footer Flavor Fetch Corp. basligi
 
-    @FindBy(xpath = "//*[text()='Privacy policy']")
+    @FindBy(xpath = "//a[normalize-space()='Privacy policy']")
     public WebElement privacypolicyLink; // customer page footer Privacy policy link
 
     @FindBy(xpath = "//*[text()='Terms and conditions']")
@@ -696,5 +696,11 @@ public class CustomerPage {
 
     @FindBy(xpath = "//*[@class='top-logo']")
     public WebElement flavorFetchLogo;
+
+    @FindBy(xpath = "//*[text()='Terms and conditions']")
+    public WebElement TermsAndConditionsText;
+
+    @FindBy(xpath = "//*[text()='info@flavorfetch.com']")
+    public WebElement contactLink;
 
 }
